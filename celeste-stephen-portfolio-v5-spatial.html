@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celeste Stephen — AI Creative Director · Content Systems Architect</title>
+<meta name="description" content="Dubai-based AI Creative Director and Content Systems Architect. I build content systems that scale — retention-engineered short-form, AI-integrated production pipelines, and monochrome brand systems.">
+<meta property="og:title" content="Celeste Stephen — Content Systems Architect">
+<meta property="og:description" content="Designing systems that create content. Not content that requires endless work.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   CELESTE STEPHEN — BRAND SYSTEM v2.0 / SPATIAL MINIMALISM
+   Web build. Layer order Z1–Z6 constructed bottom-up.
+   Amendment v2.1: refraction is a MATERIAL property of glass
+   artefacts only. It never enters type, UI chrome, or the logo.
+   ============================================================ */
+
+/* --- SECTION_02 / COLOUR ------------------------------------ */
+:root{
+  --absolute-black:#050505;
+  --graphite:#141414;
+  --carbon:#222222;
+  --smoke:#4D4D4D;
+  --silver-mist:#BDBDBD;
+  --cloud-white:#F7F7F7;
+  --pure-white:#FFFFFF;      /* Primary CTA only */
+
+  /* --- SECTION_03 / SURFACE (screen only) ------------------- */
+  --glass-fill:rgba(255,255,255,0.04);
+  --glass-border:1px solid rgba(255,255,255,0.12);
+  --glass-blur:24px;
+  --elevation:0 12px 60px rgba(0,0,0,0.45);
+  --edge-highlight:rgba(255,255,255,0.18);
+
+  /* Opacity hierarchy — stepped, never continuous */
+  --op-primary:1;
+  --op-body:0.92;
+  --op-meta:0.65;
+  --op-disabled:0.40;
+
+  /* --- SECTION_07 / LAYOUT ---------------------------------- */
+  --r-16:16px; --r-24:24px; --r-32:32px;
+  --s-8:8px;  --s-16:16px; --s-24:24px; --s-32:32px;
+  --s-48:48px; --s-64:64px; --s-96:96px; --s-128:128px;
+  --max:1200px;
+  --inset:24px;
+
+  /* --- SECTION_08 / MOTION ---------------------------------- */
+  --ease-out-expo:cubic-bezier(0.16,1,0.3,1);
+  --ease-in-out-quart:cubic-bezier(0.76,0,0.24,1);
+  --t-micro:250ms;
+  --t-standard:450ms;
+  --t-cinematic:800ms;
+
+  /* Refraction spectrum — glass artefacts only (v2.1) */
+  --spectrum:conic-gradient(from 200deg,
+    #5f6dff 0deg, #46d8d8 62deg, #f4f4f4 120deg,
+    #ff74d4 190deg, #7d63ff 255deg, #46b8ff 310deg, #5f6dff 360deg);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+
+body{
+  background:var(--absolute-black);
+  color:var(--cloud-white);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:16px; line-height:1.5;
+  overflow-x:hidden;
+  position:relative;
+  min-height:100vh;
+}
+
+/* ============================================================
+   SECTION_09 / WEB — LAYER ORDER
+   Z1 Background · Z2 Noise · Z3 Gradient blur ·
+   Z4 Glass panel · Z5 Content · Z6 Floating controls
+   ============================================================ */
+
+/* Z2 — 2% grain, tiled, unifies every material */
+.layer-noise{
+  position:fixed; inset:0; z-index:2; pointer-events:none;
+  opacity:.02;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Z3 — one ambient blob per viewport, 800px radius */
+.layer-ambient{
+  position:fixed; z-index:3; pointer-events:none;
+  width:800px; height:800px; border-radius:50%;
+  left:50%; top:20%;
+  background:radial-gradient(circle,
+    rgba(255,255,255,.055) 0%,
+    rgba(255,255,255,.018) 42%,
+    transparent 68%);
+  filter:blur(60px);
+  transform:translate(-50%,-50%);
+  transition:transform 1.2s var(--ease-out-expo);
+}
+
+/* Z5 — content */
+main{position:relative; z-index:5}
+
+/* --- SECTION_04 / TYPOGRAPHY -------------------------------- */
+.t-display{
+  font-family:'Instrument Serif',Georgia,serif;
+  font-weight:400; letter-spacing:-.02em; line-height:1.05;
+  font-size:clamp(44px,8.2vw,96px);
+}
+.t-h1{
+  font-family:'Manrope',sans-serif; font-weight:800;
+  letter-spacing:-.02em; line-height:1.08;
+  font-size:clamp(32px,5vw,48px);
+}
+.t-h2{
+  font-family:'Manrope',sans-serif; font-weight:700;
+  letter-spacing:-.02em; line-height:1.15;
+  font-size:clamp(24px,3.4vw,32px);
+}
+.t-h3{
+  font-family:'Manrope',sans-serif; font-weight:700;
+  letter-spacing:-.01em; font-size:20px; line-height:1.25;
+}
+.t-body-l{font-size:18px; line-height:1.55; opacity:var(--op-body); max-width:66ch}
+.t-body{font-size:16px; line-height:1.5; opacity:var(--op-body); max-width:70ch}
+.t-caption{font-size:13px; line-height:1.5; opacity:var(--op-meta)}
+.t-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px; font-weight:500;
+  letter-spacing:.08em; text-transform:uppercase;
+  opacity:var(--op-meta);
+}
+.t-mono{font-family:'IBM Plex Mono',monospace; letter-spacing:.04em}
+em.serif-it{font-family:'Instrument Serif',serif; font-style:italic}
+
+/* --- Layout ------------------------------------------------- */
+.wrap{
+  width:100%; max-width:var(--max);
+  margin-inline:auto;
+  padding-inline:var(--inset);   /* nothing touches the viewport edge */
+}
+section.band{
+  padding-block:var(--s-128);
+  position:relative;
+}
+@media (max-width:820px){
+  section.band{padding-block:var(--s-64)}
+}
+
+.rail{
+  display:flex; align-items:baseline; gap:var(--s-16);
+  padding-bottom:var(--s-32);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  margin-bottom:var(--s-48);
+}
+.rail .idx{
+  font-family:'IBM Plex Mono',monospace; font-size:11px;
+  letter-spacing:.08em; color:var(--silver-mist); opacity:.55;
+}
+
+/* --- SECTION_06 / COMPONENTS -------------------------------- */
+/* .glass = backdrop-blur surface. Hard cap: 3 per viewport. */
+.glass{
+  background:var(--graphite);              /* fallback first */
+  background:var(--glass-fill);
+  border:var(--glass-border);
+  border-radius:var(--r-16);
+  box-shadow:var(--elevation);
+  position:relative;
+  overflow:hidden;
+}
+@supports (backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){
+  .glass{
+    -webkit-backdrop-filter:blur(var(--glass-blur));
+    backdrop-filter:blur(var(--glass-blur));
+    background:var(--glass-fill);
+  }
+}
+/* Single 1px top-edge highlight — primary panels only */
+.glass.primary::before{
+  content:''; position:absolute; inset:0 0 auto 0; height:1px;
+  background:linear-gradient(90deg,transparent,var(--edge-highlight) 30%,var(--edge-highlight) 70%,transparent);
+}
+/* .surface = solid elevated card. Used for grids, keeps FPS. */
+.surface{
+  background:var(--graphite);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--r-16);
+  padding:var(--s-24);
+  transition:transform var(--t-standard) var(--ease-out-expo),
+             border-color var(--t-micro) var(--ease-out-expo),
+             opacity var(--t-micro) linear;
+}
+.surface:hover{transform:translateY(-4px) scale(1.008); border-color:rgba(255,255,255,.2)}
+
+/* Buttons — two styles only */
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  height:48px; padding-inline:26px; border-radius:24px;
+  font-family:'Manrope',sans-serif; font-weight:700; font-size:14px;
+  letter-spacing:-.005em; text-decoration:none; cursor:pointer;
+  border:1px solid transparent;
+  transition:transform var(--t-micro) var(--ease-out-expo),
+             opacity var(--t-micro) var(--ease-out-expo);
+}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--pure-white); color:var(--absolute-black)}
+.btn-primary:hover{transform:scale(1.03)}
+.btn-ghost{
+  background:rgba(255,255,255,.04);
+  border-color:rgba(255,255,255,.16);
+  color:var(--cloud-white);
+}
+.btn-ghost:hover{opacity:.72}
+.btn .dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.5}
+
+/* Focus — visible, monochrome */
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--cloud-white); outline-offset:3px; border-radius:4px;
+}
+
+/* Inputs */
+.field{display:flex; flex-direction:column; gap:var(--s-8); margin-bottom:var(--s-16)}
+.field input,.field textarea{
+  height:56px; border-radius:12px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.12);
+  color:var(--cloud-white);
+  font-family:'Inter',sans-serif; font-size:15px;
+  padding:0 18px;
+  transition:border-color var(--t-micro) var(--ease-out-expo),
+             background var(--t-micro) var(--ease-out-expo);
+}
+.field textarea{height:132px; padding:16px 18px; resize:vertical; line-height:1.5}
+.field input:focus,.field textarea:focus{
+  border-color:rgba(255,255,255,.38); background:rgba(255,255,255,.06);
+}
+.field input::placeholder,.field textarea::placeholder{color:var(--smoke)}
+
+/* ============================================================
+   GLASS ARTEFACTS — built natively. No third-party renders.
+   Refraction lives here and nowhere else.
+   ============================================================ */
+.prism-stage{perspective:1400px; position:relative}
+
+.cube{
+  width:var(--cs,160px); height:var(--cs,160px);
+  position:relative; transform-style:preserve-3d;
+  animation:cube-drift 34s linear infinite;
+}
+.cube .face{
+  position:absolute; inset:0;
+  border:1px solid rgba(255,255,255,.34);
+  border-radius:6px;
+  background:var(--spectrum);
+  opacity:.5;
+  mix-blend-mode:screen;
+  filter:blur(.4px) saturate(1.15);
+}
+.cube .face::after{
+  content:''; position:absolute; inset:0; border-radius:5px;
+  background:linear-gradient(128deg,rgba(255,255,255,.62) 0%,transparent 34%,transparent 62%,rgba(255,255,255,.34) 100%);
+}
+.cube .f1{transform:translateZ(calc(var(--cs,160px)/2))}
+.cube .f2{transform:rotateY(180deg) translateZ(calc(var(--cs,160px)/2))}
+.cube .f3{transform:rotateY(90deg)  translateZ(calc(var(--cs,160px)/2))}
+.cube .f4{transform:rotateY(-90deg) translateZ(calc(var(--cs,160px)/2))}
+.cube .f5{transform:rotateX(90deg)  translateZ(calc(var(--cs,160px)/2))}
+.cube .f6{transform:rotateX(-90deg) translateZ(calc(var(--cs,160px)/2))}
+@keyframes cube-drift{
+  0%  {transform:rotateX(-22deg) rotateY(0deg)   rotateZ(4deg)}
+  100%{transform:rotateX(-22deg) rotateY(360deg) rotateZ(4deg)}
+}
+
+.prism-svg{display:block; filter:saturate(1.1)}
+.prism-svg.spin{animation:slow-spin 60s linear infinite; transform-origin:50% 50%}
+@keyframes slow-spin{to{transform:rotate(360deg)}}
+
+.float{animation:float 11s ease-in-out infinite}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%    {transform:translateY(-16px)}
+}
+
+/* ============================================================
+   Z6 — FLOATING DOCK (never a full-width bar, 24px inset)
+   ============================================================ */
+.dock{
+  position:fixed; z-index:6;
+  left:50%; bottom:var(--inset); transform:translateX(-50%);
+  display:flex; align-items:center; gap:4px;
+  padding:8px; border-radius:20px;
+  background:var(--graphite);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:var(--elevation);
+  max-width:calc(100vw - 48px);
+}
+@supports (backdrop-filter:blur(1px)){
+  .dock{background:rgba(10,10,10,.62); -webkit-backdrop-filter:blur(var(--glass-blur)); backdrop-filter:blur(var(--glass-blur))}
+}
+.dock a,.dock button{
+  font-family:'IBM Plex Mono',monospace; font-size:11px;
+  letter-spacing:.08em; text-transform:uppercase;
+  color:var(--cloud-white); opacity:var(--op-meta);
+  text-decoration:none; background:none; border:0; cursor:pointer;
+  padding:9px 13px; border-radius:14px; white-space:nowrap;
+  transition:opacity var(--t-micro) var(--ease-out-expo),
+             background var(--t-micro) var(--ease-out-expo);
+}
+.dock a:hover,.dock button:hover,.dock a.active{opacity:1; background:rgba(255,255,255,.08)}
+.dock .sep{width:1px; height:18px; background:rgba(255,255,255,.14); margin-inline:4px}
+#sfxToggle[aria-pressed="false"]{opacity:var(--op-disabled)}
+@media (max-width:760px){ .dock .hide-sm{display:none} }
+
+/* --- Scroll reveal ----------------------------------------- */
+.reveal{
+  opacity:0; transform:translateY(26px);
+  filter:blur(var(--glass-blur));
+  transition:opacity var(--t-cinematic) var(--ease-out-expo),
+             transform var(--t-cinematic) var(--ease-out-expo),
+             filter var(--t-cinematic) var(--ease-out-expo);
+}
+.reveal.in{opacity:1; transform:none; filter:blur(0)}
+
+/* ============================================================
+   00 HERO
+   ============================================================ */
+.hero{
+  min-height:100svh; display:flex; align-items:center;
+  padding-block:var(--s-128) var(--s-96);
+  position:relative;
+}
+.hero-grid{
+  display:grid; grid-template-columns:1.15fr .85fr;
+  gap:var(--s-48); align-items:center;
+}
+.hero-name{position:relative}
+.hero-name .line{display:block}
+.hero-name .line.b{padding-left:.9em}
+.hero-name .thin{
+  font-family:'Instrument Serif',serif; font-style:italic;
+  color:var(--silver-mist);
+}
+.hero-sub{margin-top:var(--s-32); display:flex; flex-direction:column; gap:var(--s-16)}
+.hero-cta{display:flex; gap:12px; margin-top:var(--s-32); flex-wrap:wrap}
+.hero-art{
+  position:relative; display:flex; align-items:center; justify-content:center;
+  min-height:400px;
+}
+.portrait{
+  width:100%; max-width:330px; aspect-ratio:3/4;
+  border-radius:var(--r-24); overflow:hidden;
+  border:1px solid rgba(255,255,255,.12);
+  background:
+    radial-gradient(120% 90% at 30% 15%,rgba(255,255,255,.10),transparent 58%),
+    var(--graphite);
+  display:flex; align-items:flex-end; padding:var(--s-24);
+  position:relative;
+}
+.portrait::after{
+  content:'PORTRAIT — REPLACE / 3:4 / DESATURATED';
+  font-family:'IBM Plex Mono',monospace; font-size:10px;
+  letter-spacing:.08em; color:var(--smoke);
+}
+.portrait img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:grayscale(1) contrast(1.06)}
+.hero-cube{position:absolute; right:-14px; top:2%; --cs:132px}
+.hero-star{position:absolute; left:-46px; bottom:6%; width:112px; opacity:.85}
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-art{min-height:300px; order:-1}
+  .hero-cube{--cs:96px; right:4%}
+  .hero-star{width:78px; left:2%}
+}
+
+.scroll-hint{
+  position:absolute; bottom:96px; left:var(--inset);
+  display:flex; align-items:center; gap:10px;
+}
+.scroll-hint .bar{
+  width:1px; height:44px;
+  background:linear-gradient(180deg,var(--silver-mist),transparent);
+  animation:pulse-bar 2.6s var(--ease-in-out-quart) infinite;
+}
+@keyframes pulse-bar{0%,100%{opacity:.25}50%{opacity:.9}}
+@media (max-width:900px){.scroll-hint{display:none}}
+
+/* ============================================================
+   01 INTERSECTION
+   ============================================================ */
+.intersect{display:grid; grid-template-columns:.9fr 1.6fr; gap:var(--s-48); align-items:start}
+.intersect-defs{display:flex; flex-direction:column}
+.def{
+  display:grid; grid-template-columns:180px 1fr; gap:var(--s-24);
+  padding-block:var(--s-24);
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.def:last-child{border-bottom:1px solid rgba(255,255,255,.08)}
+@media (max-width:820px){
+  .intersect{grid-template-columns:1fr}
+  .def{grid-template-columns:1fr; gap:var(--s-8)}
+}
+
+/* ============================================================
+   02 TIERS
+   ============================================================ */
+.tiers{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s-24)}
+.tier{display:flex; flex-direction:column; gap:var(--s-16); min-height:340px}
+.tier .glyph{height:88px; display:flex; align-items:center}
+.tier .price{margin-top:auto; padding-top:var(--s-16); border-top:1px solid rgba(255,255,255,.08)}
+@media (max-width:900px){.tiers{grid-template-columns:1fr}}
+
+/* ============================================================
+   03 OFFER
+   ============================================================ */
+.offer{display:grid; grid-template-columns:repeat(4,1fr); gap:var(--s-16)}
+.offer .surface{display:flex; flex-direction:column; gap:12px; min-height:230px}
+.offer .num{
+  font-family:'IBM Plex Mono',monospace; font-size:11px;
+  letter-spacing:.08em; color:var(--silver-mist); opacity:.5;
+}
+@media (max-width:980px){.offer{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.offer{grid-template-columns:1fr}}
+
+/* ============================================================
+   04 PIPELINE — SIGNATURE ELEMENT
+   Nine stages receding in Z. Depth encodes sequence.
+   ============================================================ */
+.pipeline-stage{
+  perspective:1500px; perspective-origin:22% 50%;
+  padding-block:var(--s-32);
+}
+.ladder{
+  transform-style:preserve-3d;
+  display:flex; flex-direction:column; gap:10px;
+  position:relative;
+}
+.rung{
+  --i:0;
+  transform-style:preserve-3d;
+  transform:translateZ(calc(var(--i) * -46px)) translateX(calc(var(--i) * 26px));
+  opacity:calc(1 - (var(--i) * 0.062));
+  background:var(--graphite);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:var(--r-16);
+  padding:16px var(--s-24);
+  display:flex; align-items:center; gap:var(--s-24);
+  cursor:default; width:min(560px,100%);
+  transition:transform var(--t-standard) var(--ease-out-expo),
+             opacity var(--t-standard) var(--ease-out-expo),
+             border-color var(--t-standard) var(--ease-out-expo),
+             box-shadow var(--t-standard) var(--ease-out-expo);
+}
+.rung:hover,.rung:focus-visible{
+  transform:translateZ(30px) translateX(calc(var(--i) * 26px));
+  opacity:1;
+  border-color:rgba(255,255,255,.3);
+  box-shadow:var(--elevation);
+}
+.rung .stage-no{
+  font-family:'IBM Plex Mono',monospace; font-size:11px;
+  letter-spacing:.08em; color:var(--silver-mist);
+  opacity:.55; min-width:26px;
+}
+.rung .stage-name{font-family:'Manrope',sans-serif; font-weight:700; font-size:15px}
+.rung .stage-note{margin-left:auto; text-align:right}
+.pipeline-wrap{display:grid; grid-template-columns:1.4fr .6fr; gap:var(--s-48); align-items:center}
+.pipeline-art{display:flex; justify-content:center}
+@media (max-width:980px){
+  .pipeline-wrap{grid-template-columns:1fr}
+  .pipeline-art{display:none}
+  .rung{transform:none; opacity:1; width:100%}
+  .rung:hover{transform:translateY(-3px)}
+  .rung .stage-note{display:none}
+}
+
+/* ============================================================
+   05 STACK
+   ============================================================ */
+.stack-group{margin-bottom:var(--s-32)}
+.chips{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px}
+.chip{
+  font-family:'IBM Plex Mono',monospace; font-size:12px;
+  letter-spacing:.04em;
+  padding:9px 15px; border-radius:var(--r-16);
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.10);
+  opacity:var(--op-body);
+  transition:opacity var(--t-micro) var(--ease-out-expo),
+             transform var(--t-micro) var(--ease-out-expo),
+             border-color var(--t-micro) var(--ease-out-expo);
+}
+.chip:hover{opacity:1; transform:translateY(-2px); border-color:rgba(255,255,255,.3)}
+
+/* ============================================================
+   06 MANIFESTO
+   ============================================================ */
+.manifesto{
+  display:grid; grid-template-columns:1fr .8fr;
+  gap:var(--s-48); align-items:center;
+  padding:var(--s-64) var(--s-48);
+}
+.manifesto .quote{font-family:'Instrument Serif',serif; font-size:clamp(28px,4vw,42px); line-height:1.16; letter-spacing:-.02em}
+.manifesto-art{display:flex; align-items:center; justify-content:center}
+@media (max-width:900px){
+  .manifesto{grid-template-columns:1fr; padding:var(--s-32)}
+  .manifesto-art{order:-1}
+}
+
+/* ============================================================
+   07 PROOF
+   ============================================================ */
+.proof-head{display:grid; grid-template-columns:1fr 1fr; gap:var(--s-48); margin-bottom:var(--s-48)}
+.metrics{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s-16)}
+.metric{padding:var(--s-24); border-radius:var(--r-16); background:var(--graphite); border:1px solid rgba(255,255,255,.08)}
+.metric .val{font-family:'Manrope',sans-serif; font-weight:800; font-size:clamp(28px,4.4vw,44px); letter-spacing:-.02em; line-height:1}
+.metric .val .arrow{color:var(--silver-mist); font-weight:400; font-size:.62em}
+.metric .lab{margin-top:12px}
+@media (max-width:900px){.proof-head{grid-template-columns:1fr; gap:var(--s-24)} .metrics{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.metrics{grid-template-columns:1fr}}
+
+/* ============================================================
+   08 WORK / CONCEPTS
+   ============================================================ */
+.work-tabs{display:flex; gap:8px; margin-bottom:var(--s-32); flex-wrap:wrap}
+.tab{
+  font-family:'IBM Plex Mono',monospace; font-size:11px;
+  letter-spacing:.08em; text-transform:uppercase;
+  padding:11px 18px; border-radius:var(--r-16);
+  background:transparent; color:var(--cloud-white);
+  border:1px solid rgba(255,255,255,.12);
+  opacity:var(--op-meta); cursor:pointer;
+  transition:opacity var(--t-micro) var(--ease-out-expo),
+             background var(--t-micro) var(--ease-out-expo),
+             border-color var(--t-micro) var(--ease-out-expo);
+}
+.tab[aria-selected="true"]{opacity:1; background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.28)}
+.tab:hover{opacity:1}
+
+.reel-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:var(--s-16)}
+.reel{
+  position:relative; border-radius:var(--r-16); overflow:hidden;
+  background:var(--graphite); border:1px solid rgba(255,255,255,.08);
+  aspect-ratio:4/5; cursor:pointer;
+  transition:transform var(--t-standard) var(--ease-out-expo),
+             border-color var(--t-micro) var(--ease-out-expo);
+}
+.reel[data-ratio="1"]{aspect-ratio:1/1}
+.reel[data-ratio="l"]{aspect-ratio:5/4}
+.reel:hover{transform:translateY(-5px) scale(1.012); border-color:rgba(255,255,255,.26)}
+.reel video{width:100%; height:100%; object-fit:cover; display:block; opacity:.94}
+.reel .fallback{
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  justify-content:flex-end; gap:6px; padding:var(--s-16);
+  background:
+    radial-gradient(130% 100% at 70% 0%,rgba(255,255,255,.07),transparent 60%),
+    var(--graphite);
+}
+.reel .meta{
+  position:absolute; left:0; right:0; bottom:0;
+  padding:var(--s-16); pointer-events:none;
+  background:linear-gradient(0deg,rgba(5,5,5,.9),transparent);
+  opacity:0; transform:translateY(8px);
+  transition:opacity var(--t-micro) var(--ease-out-expo),
+             transform var(--t-micro) var(--ease-out-expo);
+}
+.reel:hover .meta,.reel:focus-within .meta{opacity:1; transform:none}
+@media (max-width:980px){.reel-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:640px){.reel-grid{grid-template-columns:repeat(2,1fr)}}
+
+.panel[hidden]{display:none}
+.note{
+  margin-top:var(--s-24); padding:14px var(--s-16);
+  border-left:2px solid var(--smoke); border-radius:0 8px 8px 0;
+  background:rgba(255,255,255,.025);
+}
+
+/* ============================================================
+   09 CONTACT
+   ============================================================ */
+.contact{display:grid; grid-template-columns:1fr 1fr; gap:var(--s-48); align-items:start}
+.contact-art{display:flex; align-items:center; justify-content:center; min-height:320px; position:relative}
+.contact-lines{display:flex; flex-direction:column; gap:var(--s-16); margin-top:var(--s-32)}
+.cline{display:grid; grid-template-columns:112px 1fr; gap:var(--s-16); padding-block:12px; border-top:1px solid rgba(255,255,255,.08)}
+.cline a{color:var(--cloud-white); text-decoration:none; opacity:var(--op-body); border-bottom:1px solid rgba(255,255,255,.18); padding-bottom:1px}
+.cline a:hover{opacity:1; border-color:var(--cloud-white)}
+@media (max-width:900px){.contact{grid-template-columns:1fr} .contact-art{min-height:220px}}
+
+footer{
+  padding:var(--s-48) 0 calc(var(--s-96) + 40px);
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.foot{display:flex; justify-content:space-between; gap:var(--s-24); flex-wrap:wrap; align-items:center}
+
+/* --- Toast -------------------------------------------------- */
+#toast{
+  position:fixed; z-index:7; left:50%; bottom:96px;
+  transform:translate(-50%,14px);
+  padding:13px 22px; border-radius:var(--r-16);
+  background:var(--pure-white); color:var(--absolute-black);
+  font-family:'IBM Plex Mono',monospace; font-size:11px;
+  letter-spacing:.08em; text-transform:uppercase;
+  opacity:0; pointer-events:none;
+  transition:opacity var(--t-micro) var(--ease-out-expo),
+             transform var(--t-micro) var(--ease-out-expo);
+}
+#toast.show{opacity:1; transform:translate(-50%,0)}
+
+/* ============================================================
+   09 LIVE CHANNELS
+   Third-party colour enters the page here. It is held at
+   saturation 0 at rest so the 90/7/3 ratio law survives;
+   colour is a hover reward, not the default state.
+   ============================================================ */
+.channels{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s-24)}
+@media (max-width:980px){.channels{grid-template-columns:1fr}}
+
+.channel{
+  background:var(--graphite);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--r-24);
+  padding:var(--s-24);
+  display:flex; flex-direction:column; gap:var(--s-16);
+}
+.channel-head{display:flex; align-items:flex-start; gap:12px}
+.channel-head .who{flex:1; min-width:0}
+.channel-head h3{
+  font-family:'Manrope',sans-serif; font-weight:700; font-size:17px;
+  letter-spacing:-.01em; line-height:1.2;
+}
+.channel-head .handle{
+  font-family:'IBM Plex Mono',monospace; font-size:11px;
+  letter-spacing:.06em; color:var(--silver-mist); opacity:.6;
+  display:block; margin-top:5px; word-break:break-all;
+}
+.channel-head .out{
+  flex-shrink:0; width:34px; height:34px; border-radius:50%;
+  display:grid; place-items:center;
+  border:1px solid rgba(255,255,255,.16);
+  color:var(--cloud-white); opacity:var(--op-meta);
+  text-decoration:none;
+  transition:opacity var(--t-micro) var(--ease-out-expo),
+             transform var(--t-micro) var(--ease-out-expo);
+}
+.channel-head .out:hover{opacity:1; transform:scale(1.08)}
+
+.channel-status{
+  display:flex; align-items:center; gap:8px;
+  padding-bottom:var(--s-16);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.channel-status .led{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--smoke); flex-shrink:0;
+}
+.channel[data-state="live"]  .led{background:var(--cloud-white); animation:led-pulse 2.4s var(--ease-in-out-quart) infinite}
+.channel[data-state="error"] .led{background:var(--smoke)}
+@keyframes led-pulse{0%,100%{opacity:.35}50%{opacity:1}}
+
+.feed-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:6px}
+.post{
+  position:relative; aspect-ratio:1/1;
+  border-radius:10px; overflow:hidden;
+  background:var(--carbon);
+  border:1px solid rgba(255,255,255,.06);
+  display:block; text-decoration:none;
+  transition:transform var(--t-standard) var(--ease-out-expo),
+             border-color var(--t-micro) var(--ease-out-expo);
+}
+.post img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  filter:grayscale(1) contrast(1.05);
+  opacity:.86;
+  transition:filter var(--t-standard) var(--ease-out-expo),
+             opacity var(--t-standard) var(--ease-out-expo),
+             transform var(--t-standard) var(--ease-out-expo);
+}
+.post:hover,.post:focus-visible{transform:translateY(-3px); border-color:rgba(255,255,255,.28); z-index:1}
+.post:hover img,.post:focus-visible img{filter:grayscale(0) contrast(1); opacity:1; transform:scale(1.04)}
+.post .kind{
+  position:absolute; top:7px; right:7px;
+  width:16px; height:16px; opacity:.85;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,.7));
+  pointer-events:none;
+}
+.post.skeleton{
+  background:linear-gradient(100deg,var(--carbon) 30%,rgba(255,255,255,.055) 50%,var(--carbon) 70%);
+  background-size:220% 100%;
+  animation:shimmer 1.5s linear infinite;
+}
+@keyframes shimmer{0%{background-position:120% 0}100%{background-position:-120% 0}}
+
+.channel-foot{margin-top:auto; padding-top:var(--s-16); display:flex; justify-content:space-between; gap:12px; align-items:baseline}
+.feed-empty{
+  grid-column:1/-1; padding:var(--s-24) var(--s-16);
+  border:1px dashed rgba(255,255,255,.14); border-radius:12px;
+  text-align:center;
+}
+
+/* --- SECTION_08 / ACCESSIBILITY ----------------------------- */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:250ms !important;
+  }
+  .reveal{transform:none; filter:none}
+  .rung{transform:none !important; opacity:1}
+  .float,.cube,.prism-svg.spin{animation:none !important}
+  .layer-ambient{transition:none}
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+a.sr-only:focus{
+  position:fixed; z-index:8; top:var(--inset); left:var(--inset);
+  width:auto; height:auto; margin:0; overflow:visible; clip:auto;
+  padding:12px 20px; border-radius:var(--r-16);
+  background:var(--pure-white); color:var(--absolute-black);
+  font-family:'IBM Plex Mono',monospace; font-size:11px;
+  letter-spacing:.08em; text-transform:uppercase; text-decoration:none;
+}
+</style>
+</head>
+<body>
+
+<!-- Z2 / Z3 -->
+<div class="layer-noise" aria-hidden="true"></div>
+<div class="layer-ambient" id="ambient" aria-hidden="true"></div>
+
+<a href="#work" class="sr-only">Skip to work</a>
+
+<main>
+
+<!-- ══════════════════ 00 HERO ══════════════════ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-name reveal">
+        <p class="t-label" style="margin-bottom:var(--s-24)">Dubai, UAE · Available for retained systems work</p>
+        <h1 class="t-display">
+          <span class="line">CELESTE</span>
+          <span class="line b">STEPH<span class="thin">en</span></span>
+        </h1>
+        <div class="hero-sub">
+          <p class="t-body-l">Where human creativity meets algorithmic precision.</p>
+          <p class="t-caption" style="max-width:44ch">AI Creative Director · Motion Designer · Content Systems Architect. I build the pipeline, not just the post.</p>
+        </div>
+        <div class="hero-cta">
+          <a href="#work" class="btn btn-primary" data-sfx="click">See the work<span class="dot"></span></a>
+          <a href="#contact" class="btn btn-ghost" data-sfx="click">Start a project</a>
+        </div>
+      </div>
+
+      <div class="hero-art prism-stage reveal">
+        <div class="portrait">
+          <!-- Replace with a desaturated 3:4 portrait: soft key, hard shadow, strong falloff -->
+          <!-- <img src="assets/img/celeste-portrait.jpg" alt="Celeste Stephen"> -->
+        </div>
+        <div class="hero-cube float" aria-hidden="true">
+          <div class="cube">
+            <div class="face f1"></div><div class="face f2"></div><div class="face f3"></div>
+            <div class="face f4"></div><div class="face f5"></div><div class="face f6"></div>
+          </div>
+        </div>
+        <svg class="hero-star prism-svg spin" viewBox="0 0 200 200" aria-hidden="true">
+          <defs>
+            <linearGradient id="gA" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0"   stop-color="#5f6dff"/><stop offset=".3" stop-color="#46d8d8"/>
+              <stop offset=".55" stop-color="#f4f4f4"/><stop offset=".8" stop-color="#ff74d4"/>
+              <stop offset="1"   stop-color="#7d63ff"/>
+            </linearGradient>
+          </defs>
+          <g fill="url(#gA)" opacity=".72" stroke="rgba(255,255,255,.5)" stroke-width="1">
+            <rect x="90" y="16" width="20" height="168" rx="6"/>
+            <rect x="90" y="16" width="20" height="168" rx="6" transform="rotate(60 100 100)"/>
+            <rect x="90" y="16" width="20" height="168" rx="6" transform="rotate(120 100 100)"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true">
+    <span class="bar"></span><span class="t-label">Scroll</span>
+  </div>
+</header>
+
+<!-- ══════════════════ 01 INTERSECTION ══════════════════ -->
+<section class="band" id="about">
+  <div class="wrap">
+    <div class="rail reveal"><span class="idx">01</span><h2 class="t-h2">The Intersection</h2></div>
+    <div class="intersect">
+      <p class="t-body-l reveal">Two disciplines that are usually kept apart: editorial craft and systems engineering. I run them as one process.</p>
+      <div class="intersect-defs reveal">
+        <div class="def">
+          <span class="t-label">Core identity</span>
+          <p class="t-body">Dubai-based Content Systems Architect operating globally. Six years across video, design, and marketing — now consolidated into one production system.</p>
+        </div>
+        <div class="def">
+          <span class="t-label">Value proposition</span>
+          <p class="t-body">I engineer AI-automated workflows that turn raw footage and briefs into scalable, high-performing, cinematic media assets — on a repeatable cadence.</p>
+        </div>
+        <div class="def">
+          <span class="t-label">Operating principle</span>
+          <p class="t-body">High-tech automation, low-noise execution, maximum impact. If a step can be templated, it gets templated. Attention goes where judgement is actually required.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ 02 TIERS ══════════════════ -->
+<section class="band" id="tiers">
+  <div class="wrap">
+    <div class="rail reveal"><span class="idx">02</span><h2 class="t-h2">Engagement tiers</h2></div>
+    <div class="tiers">
+
+      <article class="surface tier reveal" data-sfx="hover">
+        <div class="glyph" aria-hidden="true">
+          <svg width="58" height="58" viewBox="0 0 100 100" class="prism-svg">
+            <defs><linearGradient id="gT1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#46d8d8"/><stop offset=".5" stop-color="#f4f4f4"/><stop offset="1" stop-color="#5f6dff"/>
+            </linearGradient></defs>
+            <path d="M50 8 92 42 50 92 8 42Z" fill="url(#gT1)" opacity=".55" stroke="rgba(255,255,255,.55)" stroke-width="1.5"/>
+            <path d="M8 42h84M50 8v84" stroke="rgba(255,255,255,.4)" stroke-width="1" fill="none"/>
+          </svg>
+        </div>
+        <h3 class="t-h3">Deluxe</h3>
+        <p class="t-caption">Premium brand elevation. High-conversion visual assets engineered to maximise perceived value and justify premium pricing.</p>
+        <p class="t-label price">Single campaign · fixed scope</p>
+      </article>
+
+      <article class="surface tier reveal" data-sfx="hover">
+        <div class="glyph" aria-hidden="true">
+          <svg width="58" height="58" viewBox="0 0 100 100" class="prism-svg">
+            <defs><linearGradient id="gT2" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0" stop-color="#7d63ff"/><stop offset=".5" stop-color="#f4f4f4"/><stop offset="1" stop-color="#ff74d4"/>
+            </linearGradient></defs>
+            <rect x="16" y="16" width="46" height="46" rx="6" fill="url(#gT2)" opacity=".5" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
+            <rect x="38" y="38" width="46" height="46" rx="6" fill="url(#gT2)" opacity=".38" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3 class="t-h3">Professional</h3>
+        <p class="t-caption">Scalable, high-volume content systems engineered for algorithmic reach. Predictable lead generation and repeatable engagement lift.</p>
+        <p class="t-label price">Monthly retainer · fixed output</p>
+      </article>
+
+      <article class="surface tier reveal" data-sfx="hover">
+        <div class="glyph" aria-hidden="true">
+          <svg width="58" height="58" viewBox="0 0 100 100" class="prism-svg">
+            <defs><linearGradient id="gT3" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#f4f4f4"/><stop offset=".5" stop-color="#46b8ff"/><stop offset="1" stop-color="#7d63ff"/>
+            </linearGradient></defs>
+            <path d="M12 74 22 26l20 22 8-36 8 36 20-22 10 48Z" fill="url(#gT3)" opacity=".5" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linejoin="round"/>
+            <rect x="12" y="80" width="76" height="8" rx="4" fill="rgba(255,255,255,.28)"/>
+          </svg>
+        </div>
+        <h3 class="t-h3">Elite</h3>
+        <p class="t-caption">Full-stack AI infrastructure and workflow automation. Built to remove overhead from production — exponential scale, structural cost reduction.</p>
+        <p class="t-label price">Quarterly build · systems handover</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ 03 OFFER ══════════════════ -->
+<section class="band" id="services">
+  <div class="wrap">
+    <div class="rail reveal"><span class="idx">03</span><h2 class="t-h2">What I build</h2></div>
+    <div class="offer">
+      <article class="surface reveal" data-sfx="hover">
+        <span class="num">S—01</span>
+        <h3 class="t-h3">Brand&nbsp;systems<br>&amp; strategy</h3>
+        <p class="t-caption">Positioning, tone, typographic and colour systems, and the governance doc that keeps them intact after handover.</p>
+      </article>
+      <article class="surface reveal" data-sfx="hover">
+        <span class="num">S—02</span>
+        <h3 class="t-h3">Video editing<br>&amp; production</h3>
+        <p class="t-caption">End-to-end: shoot, retention edit, cinematic grade, sound design. DaVinci Resolve and CapCut, with reusable project templates.</p>
+      </article>
+      <article class="surface reveal" data-sfx="hover">
+        <span class="num">S—03</span>
+        <h3 class="t-h3">Graphic design<br>&amp; motion</h3>
+        <p class="t-caption">Thumbnails, caption systems, motion graphics, campaign creative — built as templates so volume never costs quality.</p>
+      </article>
+      <article class="surface reveal" data-sfx="hover">
+        <span class="num">S—04</span>
+        <h3 class="t-h3">Generative AI<br>&amp; prompt engineering</h3>
+        <p class="t-caption">I write the prompts, configs, and pipelines that production tools then execute — so the system runs whether or not I'm on the timeline.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ 04 PIPELINE — SIGNATURE ══════════════════ -->
+<section class="band" id="process">
+  <div class="wrap">
+    <div class="rail reveal">
+      <span class="idx">04</span><h2 class="t-h2">The pipeline</h2>
+      <span class="t-label" style="margin-left:auto">Nine stages · each one templated</span>
+    </div>
+    <div class="pipeline-wrap">
+      <div class="pipeline-stage">
+        <div class="ladder" id="ladder">
+          <div class="rung reveal" style="--i:0" tabindex="0" data-sfx="hover"><span class="stage-no">01</span><span class="stage-name">Research &amp; strategy</span><span class="t-label stage-note">Brief · benchmark</span></div>
+          <div class="rung reveal" style="--i:1" tabindex="0" data-sfx="hover"><span class="stage-no">02</span><span class="stage-name">Concept &amp; scripting</span><span class="t-label stage-note">Hook variants</span></div>
+          <div class="rung reveal" style="--i:2" tabindex="0" data-sfx="hover"><span class="stage-no">03</span><span class="stage-name">Pre-production planning</span><span class="t-label stage-note">Shotlist · board</span></div>
+          <div class="rung reveal" style="--i:3" tabindex="0" data-sfx="hover"><span class="stage-no">04</span><span class="stage-name">Media organisation &amp; setup</span><span class="t-label stage-note">Ingest · tag</span></div>
+          <div class="rung reveal" style="--i:4" tabindex="0" data-sfx="hover"><span class="stage-no">05</span><span class="stage-name">Rough cut assembly</span><span class="t-label stage-note">Structure pass</span></div>
+          <div class="rung reveal" style="--i:5" tabindex="0" data-sfx="hover"><span class="stage-no">06</span><span class="stage-name">Fine cut</span><span class="t-label stage-note">1.5–3s pacing</span></div>
+          <div class="rung reveal" style="--i:6" tabindex="0" data-sfx="hover"><span class="stage-no">07</span><span class="stage-name">VFX &amp; motion design</span><span class="t-label stage-note">Mask reveals</span></div>
+          <div class="rung reveal" style="--i:7" tabindex="0" data-sfx="hover"><span class="stage-no">08</span><span class="stage-name">Colour &amp; sound design</span><span class="t-label stage-note">Grade · mix</span></div>
+          <div class="rung reveal" style="--i:8" tabindex="0" data-sfx="hover"><span class="stage-no">09</span><span class="stage-name">QC, export &amp; publishing</span><span class="t-label stage-note">Ship · measure</span></div>
+        </div>
+      </div>
+      <div class="pipeline-art prism-stage reveal" aria-hidden="true">
+        <div class="cube float" style="--cs:150px">
+          <div class="face f1"></div><div class="face f2"></div><div class="face f3"></div>
+          <div class="face f4"></div><div class="face f5"></div><div class="face f6"></div>
+        </div>
+      </div>
+    </div>
+    <p class="t-caption reveal" style="margin-top:var(--s-32);max-width:60ch">Depth is the point. Every stage sits further back because the pipeline is a sequence — the further a stage is from the viewer, the earlier it runs. Hover any stage to bring it forward.</p>
+  </div>
+</section>
+
+<!-- ══════════════════ 05 STACK ══════════════════ -->
+<section class="band" id="stack">
+  <div class="wrap">
+    <div class="rail reveal"><span class="idx">05</span><h2 class="t-h2">Stack</h2></div>
+
+    <div class="stack-group reveal">
+      <span class="t-label">Edit &amp; grade</span>
+      <div class="chips">
+        <span class="chip" data-sfx="hover">DaVinci Resolve</span><span class="chip" data-sfx="hover">CapCut</span>
+        <span class="chip" data-sfx="hover">Premiere Pro</span><span class="chip" data-sfx="hover">After Effects</span>
+      </div>
+    </div>
+    <div class="stack-group reveal">
+      <span class="t-label">Design</span>
+      <div class="chips">
+        <span class="chip" data-sfx="hover">Figma</span><span class="chip" data-sfx="hover">Photoshop</span>
+        <span class="chip" data-sfx="hover">Illustrator</span><span class="chip" data-sfx="hover">Canva Pro</span>
+      </div>
+    </div>
+    <div class="stack-group reveal">
+      <span class="t-label">Generative &amp; AI</span>
+      <div class="chips">
+        <span class="chip" data-sfx="hover">Claude</span><span class="chip" data-sfx="hover">ChatGPT</span>
+        <span class="chip" data-sfx="hover">Gemini</span><span class="chip" data-sfx="hover">Perplexity</span>
+        <span class="chip" data-sfx="hover">ElevenLabs</span><span class="chip" data-sfx="hover">Kling</span>
+        <span class="chip" data-sfx="hover">Higgsfield</span><span class="chip" data-sfx="hover">Leonardo.ai</span>
+        <span class="chip" data-sfx="hover">Manus.ai</span>
+      </div>
+    </div>
+    <div class="stack-group reveal">
+      <span class="t-label">Workflow</span>
+      <div class="chips">
+        <span class="chip" data-sfx="hover">Notion</span><span class="chip" data-sfx="hover">Jira</span>
+        <span class="chip" data-sfx="hover">Asana</span><span class="chip" data-sfx="hover">Excel</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ 06 MANIFESTO ══════════════════ -->
+<section class="band">
+  <div class="wrap">
+    <div class="glass primary manifesto reveal">
+      <div>
+        <span class="t-label">The art</span>
+        <p class="quote" style="margin-top:var(--s-24)">Systems over trends.<br>Scalability over manual labour.</p>
+        <p class="t-body" style="margin-top:var(--s-24)">I build precision-engineered content machines that scale. The edit is where the brand gets proven — retention is engineered through structure, not effects.</p>
+      </div>
+      <div class="manifesto-art prism-stage" aria-hidden="true">
+        <svg width="220" height="220" viewBox="0 0 220 220" class="prism-svg spin">
+          <defs>
+            <linearGradient id="gR" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#5f6dff"/><stop offset=".35" stop-color="#46d8d8"/>
+              <stop offset=".6" stop-color="#f4f4f4"/><stop offset="1" stop-color="#ff74d4"/>
+            </linearGradient>
+          </defs>
+          <g fill="none" stroke="url(#gR)" stroke-linecap="round">
+            <circle cx="110" cy="110" r="96" stroke-width="9" opacity=".42" stroke-dasharray="180 92"/>
+            <circle cx="110" cy="110" r="72" stroke-width="7" opacity=".55" stroke-dasharray="120 70"/>
+            <circle cx="110" cy="110" r="48" stroke-width="6" opacity=".7"  stroke-dasharray="80 46"/>
+          </g>
+          <circle cx="110" cy="110" r="19" fill="rgba(255,255,255,.9)"/>
+          <circle cx="110" cy="110" r="30" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ 07 PROOF ══════════════════ -->
+<section class="band" id="proof">
+  <div class="wrap">
+    <div class="rail reveal"><span class="idx">06</span><h2 class="t-h2">Proof</h2></div>
+    <div class="proof-head">
+      <div class="reveal">
+        <h3 class="t-h3">Sasha Beauty Salon &amp; Sasha Aesthetic &amp; Wellness Polyclinic</h3>
+        <p class="t-caption" style="margin-top:12px">Dubai · Oct 2025 – present · Video Editor / AI Content Creator</p>
+      </div>
+      <div class="reveal">
+        <p class="t-body"><strong style="font-weight:500">Problem.</strong> Engagement stuck at 2–3%. Slow production cycles and high outsourcing cost.</p>
+        <p class="t-body" style="margin-top:12px"><strong style="font-weight:500">System.</strong> AI-assisted scripting and voiceover, a templated Resolve project structure, and a fixed retention edit — pattern interrupt at 0–3s, scene change every 1.5–3s.</p>
+      </div>
+    </div>
+    <div class="metrics">
+      <div class="metric reveal"><p class="val">120<span style="opacity:.4">+</span></p><p class="t-label lab">Short-form videos shipped</p></div>
+      <div class="metric reveal"><p class="val">28<span class="arrow">→</span>52<span style="opacity:.4;font-size:.6em">%</span></p><p class="t-label lab">Average retention</p></div>
+      <div class="metric reveal"><p class="val">+45<span style="opacity:.4;font-size:.6em">%</span></p><p class="t-label lab">Engagement rate</p></div>
+      <div class="metric reveal"><p class="val">+35<span style="opacity:.4;font-size:.6em">%</span></p><p class="t-label lab">Follower growth · 6 months</p></div>
+      <div class="metric reveal"><p class="val">+40<span style="opacity:.4;font-size:.6em">%</span></p><p class="t-label lab">Production speed</p></div>
+      <div class="metric reveal"><p class="val">−60<span style="opacity:.4;font-size:.6em">%</span></p><p class="t-label lab">Production cost</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ 08 WORK ══════════════════ -->
+<section class="band" id="work">
+  <div class="wrap">
+    <div class="rail reveal"><span class="idx">07</span><h2 class="t-h2">Work</h2></div>
+
+    <div class="work-tabs reveal" role="tablist" aria-label="Work categories">
+      <button class="tab" role="tab" id="tab-client" aria-controls="panel-client" aria-selected="true" data-sfx="click">Client work</button>
+      <button class="tab" role="tab" id="tab-concept" aria-controls="panel-concept" aria-selected="false" data-sfx="click">Concept explorations</button>
+    </div>
+
+    <!-- Client -->
+    <div class="panel" id="panel-client" role="tabpanel" aria-labelledby="tab-client">
+      <p class="t-body reveal" style="margin-bottom:var(--s-24)">Short-form and lifestyle edits for Sasha Beauty Salon — cinematic client stories cut for retention. Aesthetic treatment showcases for the Polyclinic — clean, high-trust, motion built for conversion.</p>
+      <div class="reel-grid" id="clientGrid"></div>
+      <div class="note reveal">
+        <p class="t-label">Build note</p>
+        <p class="t-caption" style="margin-top:6px">Drop client reels into <span class="t-mono">assets/video/client/</span> as <span class="t-mono">c01.mp4 … c08.mp4</span>. Tiles render a monochrome placeholder until the files exist.</p>
+      </div>
+    </div>
+
+    <!-- Concept -->
+    <div class="panel" id="panel-concept" role="tabpanel" aria-labelledby="tab-concept" hidden>
+      <p class="t-body reveal" style="margin-bottom:var(--s-24)">AI-assisted product re-imagination — streetwear and beverage concepts built to demonstrate prompt engineering and motion control. Unsolicited, non-commercial concept work. All trademarks belong to their respective owners.</p>
+      <div class="reel-grid" id="conceptGrid"></div>
+      <div class="note reveal">
+        <p class="t-label">Build note</p>
+        <p class="t-caption" style="margin-top:6px">Place the twelve clips in <span class="t-mono">assets/video/concept/</span> as <span class="t-mono">15.mp4 … 26.mp4</span>. Muted, looped, lazy-loaded — no autoplay audio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ 09 LIVE CHANNELS ══════════════════ -->
+<section class="band" id="channels">
+  <div class="wrap">
+    <div class="rail reveal">
+      <span class="idx">08</span><h2 class="t-h2">Live channels</h2>
+      <span class="t-label" style="margin-left:auto">Pulled on scroll · cached 1h</span>
+    </div>
+    <p class="t-body-l reveal" style="margin-bottom:var(--s-48)">Accounts running on the system right now. These grids read from the live feed — what you see is what shipped this week, not a curated screenshot from six months ago.</p>
+
+    <div class="channels" id="channelRoot"></div>
+
+    <div class="note reveal">
+      <p class="t-label">Build note — feed connection</p>
+      <p class="t-caption" style="margin-top:6px">Instagram killed unauthenticated feed access. Each account must be a Business or Creator account and grant a token once. Set <span class="t-mono">source.type</span> per channel in the <span class="t-mono">IG_FEEDS</span> config: <span class="t-mono">'proxy'</span> (your own serverless route), <span class="t-mono">'json'</span> (a hosted widget feed URL), or <span class="t-mono">'static'</span> (a JSON file you refresh on a cron). Tiles hold a skeleton state until a source responds — nothing fabricates posts.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ 10 CONTACT ══════════════════ -->
+<section class="band" id="contact">
+  <div class="wrap">
+    <div class="rail reveal"><span class="idx">09</span><h2 class="t-h2">Partner with the best</h2></div>
+    <div class="contact">
+      <div class="reveal">
+        <p class="t-body-l">Tell me what you're shipping and how often. I'll come back with the system, not a quote for one video.</p>
+        <div class="contact-lines">
+          <div class="cline"><span class="t-label">Email</span><span><a href="mailto:celestestephen.official@gmail.com">celestestephen.official@gmail.com</a></span></div>
+          <div class="cline"><span class="t-label">Phone</span><span><a href="tel:+971525752670">+971 52 575 2670</a></span></div>
+          <div class="cline"><span class="t-label">LinkedIn</span><span><a href="https://linkedin.com/in/celeste-stephen" target="_blank" rel="noopener">linkedin.com/in/celeste-stephen</a></span></div>
+          <div class="cline"><span class="t-label">Location</span><span class="t-body" style="opacity:var(--op-meta)">Dubai, United Arab Emirates</span></div>
+        </div>
+      </div>
+
+      <div class="glass primary reveal" style="padding:var(--s-32)">
+        <!-- ⚠ REPLACE YOUR_FORM_ID BEFORE LAUNCH — formspree.io -->
+        <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <p class="t-label" style="margin-bottom:var(--s-24)">Project enquiry</p>
+          <div class="field"><label class="t-caption" for="cf-name">Name</label><input id="cf-name" name="name" type="text" required placeholder="Your name"></div>
+          <div class="field"><label class="t-caption" for="cf-email">Email</label><input id="cf-email" name="email" type="email" required placeholder="you@company.com"></div>
+          <div class="field"><label class="t-caption" for="cf-msg">What are you shipping?</label><textarea id="cf-msg" name="message" required placeholder="Platform, cadence, current bottleneck."></textarea></div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center" data-sfx="click">Send enquiry</button>
+          <p class="t-caption" style="margin-top:14px;opacity:.5">Replies within one business day.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <p class="t-h3">Celeste Stephen</p>
+      <p class="t-label" style="margin-top:8px">Brand system v2.0 · Spatial minimalism · 2026</p>
+    </div>
+    <p class="t-label">Designing systems that create content</p>
+  </div>
+</footer>
+
+</main>
+
+<!-- Z6 -->
+<nav class="dock" aria-label="Section navigation">
+  <a href="#about"    data-sfx="click">Intersection</a>
+  <a href="#services" data-sfx="click" class="hide-sm">Build</a>
+  <a href="#process"  data-sfx="click">Pipeline</a>
+  <a href="#proof"    data-sfx="click" class="hide-sm">Proof</a>
+  <a href="#work"     data-sfx="click">Work</a>
+  <a href="#channels" data-sfx="click" class="hide-sm">Live</a>
+  <span class="sep" aria-hidden="true"></span>
+  <a href="#contact"  data-sfx="click">Contact</a>
+  <span class="sep" aria-hidden="true"></span>
+  <button id="sfxToggle" aria-pressed="true" title="Toggle interface sound">Sound</button>
+</nav>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  'use strict';
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── SECTION_11 / AUDIO ────────────────────────────────────
+     Synthesized. Soft transitional air and low clicks only.
+     No glitch stingers, no sample files.                      */
+  var Sfx = (function(){
+    var ctx = null, on = !reduced, master = null;
+    function boot(){
+      if (ctx) return;
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      ctx = new AC();
+      master = ctx.createGain();
+      master.gain.value = 0.5;
+      master.connect(ctx.destination);
+    }
+    function env(node, gain, attack, release){
+      var g = ctx.createGain();
+      var t = ctx.currentTime;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(gain, t + attack);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + attack + release);
+      node.connect(g); g.connect(master);
+      return t + attack + release;
+    }
+    function hover(){
+      if (!on || !ctx) return;
+      var o = ctx.createOscillator();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(2100, ctx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(2600, ctx.currentTime + 0.05);
+      var end = env(o, 0.010, 0.006, 0.055);
+      o.start(); o.stop(end + 0.02);
+    }
+    function click(){
+      if (!on || !ctx) return;
+      var o = ctx.createOscillator();
+      o.type = 'triangle';
+      o.frequency.setValueAtTime(210, ctx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + 0.07);
+      var lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass'; lp.frequency.value = 900;
+      o.connect(lp);
+      var end = env(lp, 0.055, 0.004, 0.085);
+      o.start(); o.stop(end + 0.02);
+    }
+    /* "air" — filtered noise swell for panel reveals */
+    function air(){
+      if (!on || !ctx) return;
+      var len = Math.floor(ctx.sampleRate * 0.5);
+      var buf = ctx.createBuffer(1, len, ctx.sampleRate);
+      var d = buf.getChannelData(0);
+      for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+      var src = ctx.createBufferSource(); src.buffer = buf;
+      var bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass'; bp.frequency.value = 1500; bp.Q.value = 0.7;
+      src.connect(bp);
+      var end = env(bp, 0.030, 0.15, 0.33);
+      src.start(); src.stop(end + 0.05);
+    }
+    return {
+      boot: boot, hover: hover, click: click, air: air,
+      set: function(v){ on = v; },
+      get: function(){ return on; }
+    };
+  })();
+
+  /* Browsers block audio until a user gesture — boot on first one. */
+  ['pointerdown','keydown'].forEach(function(ev){
+    window.addEventListener(ev, function once(){
+      Sfx.boot();
+      window.removeEventListener(ev, once);
+    }, { once:true });
+  });
+
+  var throttleHover = 0;
+  document.addEventListener('pointerover', function(e){
+    var el = e.target.closest('[data-sfx="hover"]');
+    if (!el) return;
+    var now = Date.now();
+    if (now - throttleHover < 90) return;
+    throttleHover = now;
+    Sfx.hover();
+  });
+  document.addEventListener('pointerdown', function(e){
+    if (e.target.closest('[data-sfx="click"]')) Sfx.click();
+  });
+
+  var toggle = document.getElementById('sfxToggle');
+  toggle.setAttribute('aria-pressed', String(Sfx.get()));
+  toggle.addEventListener('click', function(){
+    Sfx.boot();
+    var next = !Sfx.get();
+    Sfx.set(next);
+    toggle.setAttribute('aria-pressed', String(next));
+    if (next) Sfx.click();
+  });
+
+  /* ── Toast ─────────────────────────────────────────────── */
+  var toastEl = document.getElementById('toast'), toastTimer;
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 3200);
+  }
+
+  /* ── Scroll reveal — blur 24→0, opacity 0→1, 800ms ────── */
+  var revealed = 0;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      en.target.classList.add('in');
+      io.unobserve(en.target);
+      revealed++;
+      if (revealed % 7 === 0) Sfx.air();
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(function(el, i){
+    el.style.transitionDelay = Math.min(i % 6, 5) * 55 + 'ms';
+    io.observe(el);
+  });
+
+  /* ── Ambient blob follows the pointer, slowly ─────────── */
+  if (!reduced){
+    var amb = document.getElementById('ambient'), raf = null;
+    window.addEventListener('pointermove', function(e){
+      if (raf) return;
+      raf = requestAnimationFrame(function(){
+        amb.style.transform = 'translate(' + (e.clientX - 400) + 'px,' + (e.clientY - 400) + 'px)';
+        amb.style.left = '0'; amb.style.top = '0';
+        raf = null;
+      });
+    }, { passive:true });
+  }
+
+  /* ── Dock active state ────────────────────────────────── */
+  var links = Array.prototype.slice.call(document.querySelectorAll('.dock a[href^="#"]'));
+  var targets = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  var spy = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      var i = targets.indexOf(en.target);
+      if (i < 0) return;
+      links.forEach(function(l){ l.classList.remove('active'); });
+      links[i].classList.add('active');
+    });
+  }, { threshold: 0.35 });
+  targets.forEach(function(t){ if (t) spy.observe(t); });
+
+  /* ── Video grids ──────────────────────────────────────── */
+  var CLIENT = [
+    { f:'c01', r:'p', t:'Salon story · retention cut' },
+    { f:'c02', r:'p', t:'Treatment showcase' },
+    { f:'c03', r:'1', t:'Before / after reveal' },
+    { f:'c04', r:'1', t:'Product close-up' },
+    { f:'c05', r:'p', t:'Client testimonial edit' },
+    { f:'c06', r:'1', t:'Clinic walkthrough' },
+    { f:'c07', r:'l', t:'Campaign teaser' },
+    { f:'c08', r:'p', t:'Seasonal promo' }
+  ];
+  var CONCEPT = [
+    { f:'15', r:'p', t:'Chrome form study' },   { f:'16', r:'l', t:'Motion test · wide' },
+    { f:'17', r:'l', t:'Panoramic concept' },   { f:'18', r:'p', t:'Material study' },
+    { f:'19', r:'1', t:'Beverage concept' },    { f:'20', r:'1', t:'Beverage concept' },
+    { f:'21', r:'1', t:'Streetwear concept' },  { f:'22', r:'1', t:'Streetwear concept' },
+    { f:'23', r:'1', t:'Can · environment' },   { f:'24', r:'l', t:'Footwear · snow' },
+    { f:'25', r:'l', t:'Footwear · studio' },   { f:'26', r:'l', t:'Footwear · alpine' }
+  ];
+
+  function buildGrid(el, items, dir){
+    items.forEach(function(it){
+      var fig = document.createElement('figure');
+      fig.className = 'reel';
+      fig.setAttribute('data-ratio', it.r === 'p' ? '' : it.r);
+      fig.setAttribute('data-sfx','hover');
+      fig.setAttribute('tabindex','0');
+
+      var fb = document.createElement('div');
+      fb.className = 'fallback';
+      fb.innerHTML = '<span class="t-label">' + dir + '/' + it.f + '.mp4</span>' +
+                     '<span class="t-caption" style="opacity:.45">Awaiting asset</span>';
+      fig.appendChild(fb);
+
+      var v = document.createElement('video');
+      v.muted = true; v.loop = true; v.playsInline = true;
+      v.setAttribute('muted',''); v.setAttribute('playsinline','');
+      v.preload = 'none';
+      v.src = 'assets/video/' + dir + '/' + it.f + '.mp4';
+      v.style.display = 'none';
+      v.addEventListener('loadeddata', function(){
+        v.style.display = 'block';
+        fb.style.display = 'none';
+      });
+      fig.appendChild(v);
+
+      var meta = document.createElement('figcaption');
+      meta.className = 'meta';
+      meta.innerHTML = '<span class="t-label" style="opacity:.9">' + it.t + '</span>';
+      fig.appendChild(meta);
+
+      function play(){ var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+      fig.addEventListener('pointerenter', play);
+      fig.addEventListener('focus', play);
+      fig.addEventListener('pointerleave', function(){ v.pause(); });
+      fig.addEventListener('blur', function(){ v.pause(); });
+
+      el.appendChild(fig);
+    });
+  }
+  buildGrid(document.getElementById('clientGrid'),  CLIENT,  'client');
+  buildGrid(document.getElementById('conceptGrid'), CONCEPT, 'concept');
+
+  /* Lazy-load video sources only when the grid is near viewport */
+  var vidIo = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      en.target.querySelectorAll('video').forEach(function(v){ v.preload = 'metadata'; v.load(); });
+      vidIo.unobserve(en.target);
+    });
+  }, { rootMargin:'300px' });
+  document.querySelectorAll('.reel-grid').forEach(function(g){ vidIo.observe(g); });
+
+  /* ── Tabs ─────────────────────────────────────────────── */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){
+        var sel = t === tab;
+        t.setAttribute('aria-selected', String(sel));
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !sel;
+      });
+      Sfx.air();
+    });
+    tab.addEventListener('keydown', function(e){
+      var i = tabs.indexOf(tab);
+      if (e.key === 'ArrowRight'){ tabs[(i+1) % tabs.length].focus(); tabs[(i+1) % tabs.length].click(); }
+      if (e.key === 'ArrowLeft'){  tabs[(i-1+tabs.length) % tabs.length].focus(); tabs[(i-1+tabs.length) % tabs.length].click(); }
+    });
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     LIVE CHANNELS — Instagram feed layer
+
+     Instagram Basic Display was shut down 4 Dec 2024. There is
+     no legitimate way to read a feed from an account you do not
+     hold a token for. Each account below must be a Business or
+     Creator account and grant access once.
+
+     source.type:
+       'proxy'  → your own serverless route (recommended).
+                  See api/instagram.js. Token stays server-side,
+                  response cached at the edge for one hour.
+       'json'   → a hosted widget feed URL (Behold, LightWidget,
+                  EmbedSocial, Juicer). No token in the client.
+       'static' → a JSON file you refresh on a cron. Zero
+                  third-party script weight, survives token churn.
+       'none'   → renders the empty state. Never invents posts.
+     ══════════════════════════════════════════════════════════ */
+  var IG_TILES = 6;
+
+  var IG_FEEDS = [
+    {
+      handle: 'sashabeautysalon',
+      name:   'Sasha Beauty Salon',
+      role:   'Salon · lifestyle edits cut for retention',
+      since:  'Oct 2025 — present',
+      url:    'https://www.instagram.com/sashabeautysalon/',
+      source: { type:'static', url:'assets/feeds/sashabeautysalon.json' }
+    },
+    {
+      handle: 'sasha_aesthetics_clinic',
+      name:   'Sasha Aesthetic Clinic',
+      role:   'Clinic · high-trust motion, built for conversion',
+      since:  'Oct 2025 — present',
+      url:    'https://www.instagram.com/sasha_aesthetics_clinic/',
+      source: { type:'static', url:'assets/feeds/sasha_aesthetics_clinic.json' }
+    },
+    {
+      handle: 'denzarossa',
+      name:   'Denzarossa',
+      role:   'Confirm scope and token access before launch',
+      since:  '—',
+      url:    'https://www.instagram.com/denzarossa/',
+      source: { type:'none' }
+    }
+  ];
+
+  var feedCache = new Map();
+
+  var ICON_VIDEO = '<svg class="kind" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3" fill="#fff" stroke="none"/></svg>';
+  var ICON_ALBUM = '<svg class="kind" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="13" height="13" rx="2"/><path d="M4 8v11a2 2 0 0 0 2 2h11"/></svg>';
+
+  /* Normalise the shapes every provider returns into one object */
+  function normalisePost(p){
+    if (!p) return null;
+    var thumb = p.thumbnail_url || p.thumbnailUrl || p.media_url ||
+                p.mediaUrl || p.thumbnail || p.image || p.display_url || '';
+    var type  = (p.media_type || p.mediaType || p.type || 'IMAGE').toUpperCase();
+    var link  = p.permalink || p.permalinkUrl || p.link || p.url || '';
+    if (!thumb) return null;
+    return {
+      id:       p.id || link || thumb,
+      permalink:link,
+      thumb:    thumb,
+      type:     type,
+      caption:  (p.caption || p.text || '').slice(0, 120)
+    };
+  }
+
+  function unwrap(json){
+    if (Array.isArray(json)) return json;
+    return json.data || json.posts || json.media || json.items || json.feed || [];
+  }
+
+  function fetchFeed(cfg){
+    var src = cfg.source || { type:'none' };
+    if (src.type === 'none' || !src.url){
+      return Promise.reject(new Error('no-source'));
+    }
+    if (feedCache.has(src.url)) return Promise.resolve(feedCache.get(src.url));
+
+    var url = src.type === 'proxy'
+      ? src.url + (src.url.indexOf('?') > -1 ? '&' : '?') + 'limit=' + IG_TILES
+      : src.url;
+
+    return fetch(url, { headers:{ 'Accept':'application/json' } })
+      .then(function(r){
+        if (!r.ok) throw new Error('http-' + r.status);
+        return r.json();
+      })
+      .then(function(json){
+        var posts = unwrap(json).map(normalisePost).filter(Boolean).slice(0, IG_TILES);
+        if (!posts.length) throw new Error('empty');
+        feedCache.set(src.url, posts);
+        return posts;
+      });
+  }
+
+  function buildChannel(cfg){
+    var el = document.createElement('article');
+    el.className = 'channel reveal';
+    el.setAttribute('data-state', 'idle');
+
+    var grid = '';
+    for (var i = 0; i < IG_TILES; i++) grid += '<span class="post skeleton"></span>';
+
+    el.innerHTML =
+      '<div class="channel-head">' +
+        '<div class="who">' +
+          '<h3>' + cfg.name + '</h3>' +
+          '<span class="handle">@' + cfg.handle + '</span>' +
+        '</div>' +
+        '<a class="out" href="' + cfg.url + '" target="_blank" rel="noopener" data-sfx="click" aria-label="Open @' + cfg.handle + ' on Instagram">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
+        '</a>' +
+      '</div>' +
+      '<div class="channel-status">' +
+        '<span class="led" aria-hidden="true"></span>' +
+        '<span class="t-label state">Connecting</span>' +
+      '</div>' +
+      '<div class="feed-grid"></div>' +
+      '<div class="channel-foot">' +
+        '<span class="t-caption" style="opacity:.6">' + cfg.role + '</span>' +
+        '<span class="t-label">' + cfg.since + '</span>' +
+      '</div>';
+
+    el.querySelector('.feed-grid').innerHTML = grid;
+    return el;
+  }
+
+  function renderPosts(el, posts){
+    var grid = el.querySelector('.feed-grid');
+    grid.innerHTML = '';
+    posts.forEach(function(p){
+      var a = document.createElement('a');
+      a.className = 'post';
+      a.href = p.permalink || '#';
+      a.target = '_blank'; a.rel = 'noopener';
+      a.setAttribute('data-sfx', 'hover');
+      a.setAttribute('aria-label', p.caption || 'Instagram post');
+
+      var img = document.createElement('img');
+      img.loading = 'lazy'; img.decoding = 'async';
+      img.alt = p.caption || '';
+      img.src = p.thumb;
+      img.addEventListener('error', function(){ a.classList.add('skeleton'); img.remove(); });
+      a.appendChild(img);
+
+      if (p.type === 'VIDEO' || p.type === 'REELS') a.insertAdjacentHTML('beforeend', ICON_VIDEO);
+      else if (p.type === 'CAROUSEL_ALBUM') a.insertAdjacentHTML('beforeend', ICON_ALBUM);
+
+      grid.appendChild(a);
+    });
+    el.setAttribute('data-state', 'live');
+    el.querySelector('.state').textContent = 'Live · ' + posts.length + ' recent';
+  }
+
+  function renderEmpty(el, cfg, reason){
+    el.setAttribute('data-state', 'error');
+    el.querySelector('.state').textContent = reason === 'no-source' ? 'Not connected' : 'Feed unavailable';
+    el.querySelector('.feed-grid').innerHTML =
+      '<div class="feed-empty">' +
+        '<p class="t-label">Awaiting feed connection</p>' +
+        '<p class="t-caption" style="margin-top:8px;opacity:.55">' +
+          (reason === 'no-source'
+            ? 'Set a source for @' + cfg.handle + ' in IG_FEEDS.'
+            : 'Source did not respond. Check the token or endpoint.') +
+        '</p>' +
+        '<a class="btn btn-ghost" style="margin-top:16px;height:38px;font-size:12px" href="' + cfg.url + '" target="_blank" rel="noopener" data-sfx="click">Open on Instagram</a>' +
+      '</div>';
+  }
+
+  var channelRoot = document.getElementById('channelRoot');
+  var channelEls = IG_FEEDS.map(function(cfg, i){
+    var el = buildChannel(cfg);
+    el.style.transitionDelay = (i * 90) + 'ms';
+    channelRoot.appendChild(el);
+    io.observe(el);
+    return { cfg: cfg, el: el };
+  });
+
+  /* Only hit the network once the section is close to the viewport.
+     Ambient depth must never cost load time — LCP target 2.5s. */
+  var feedIo = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      feedIo.unobserve(en.target);
+      channelEls.forEach(function(c){
+        fetchFeed(c.cfg)
+          .then(function(posts){ renderPosts(c.el, posts); Sfx.air(); })
+          .catch(function(err){ renderEmpty(c.el, c.cfg, err.message); });
+      });
+    });
+  }, { rootMargin: '400px' });
+  feedIo.observe(channelRoot);
+
+  /* ── Contact form ─────────────────────────────────────── */
+  var form = document.getElementById('contactForm');
+  form.addEventListener('submit', function(e){
+    if (form.action.indexOf('YOUR_FORM_ID') > -1){
+      e.preventDefault();
+      toast('Form endpoint not configured');
+      Sfx.click();
+      return;
+    }
+    e.preventDefault();
+    var btn = form.querySelector('button[type="submit"]');
+    btn.style.opacity = '.4'; btn.disabled = true;
+    fetch(form.action, {
+      method:'POST', body:new FormData(form), headers:{ 'Accept':'application/json' }
+    }).then(function(r){
+      if (!r.ok) throw new Error('bad response');
+      form.reset(); toast('Enquiry sent'); Sfx.air();
+    }).catch(function(){
+      toast('Send failed — email instead');
+    }).finally(function(){
+      btn.style.opacity = ''; btn.disabled = false;
+    });
+  });
+
+  /* Page load: Z-stack settles */
+  window.addEventListener('load', function(){
+    document.querySelectorAll('.hero .reveal').forEach(function(el){ el.classList.add('in'); });
+  });
+})();
+</script>
+</body>
+</html>

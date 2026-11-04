@@ -1,0 +1,37 @@
+{
+  "_comment": "assets/feeds/<handle>.json — the 'static' source shape. Replace every value below with real data from the account. Do not ship this file with placeholder URLs; the grid will render a skeleton instead of a broken tile, but an empty feed reads better than a fake one.",
+  "_handle": "sashabeautysalon",
+  "_updated": "2026-08-04T09:00:00Z",
+  "_refresh": "Regenerate on a cron (Vercel cron → api/instagram.js → write to blob/repo) or paste manually once a week.",
+
+  "data": [
+    {
+      "id": "REPLACE_POST_ID",
+      "permalink": "https://www.instagram.com/p/REPLACE/",
+      "media_type": "VIDEO",
+      "thumbnail_url": "https://REPLACE_CDN_OR_SELF_HOSTED/thumb-01.jpg",
+      "caption": "Short caption, trimmed to ~120 chars for the alt text."
+    },
+    {
+      "id": "REPLACE_POST_ID",
+      "permalink": "https://www.instagram.com/p/REPLACE/",
+      "media_type": "CAROUSEL_ALBUM",
+      "thumbnail_url": "https://REPLACE_CDN_OR_SELF_HOSTED/thumb-02.jpg",
+      "caption": ""
+    },
+    {
+      "id": "REPLACE_POST_ID",
+      "permalink": "https://www.instagram.com/p/REPLACE/",
+      "media_type": "IMAGE",
+      "thumbnail_url": "https://REPLACE_CDN_OR_SELF_HOSTED/thumb-03.jpg",
+      "caption": ""
+    }
+  ],
+
+  "_field_notes": {
+    "media_type": "IMAGE | VIDEO | CAROUSEL_ALBUM — drives the corner badge only",
+    "thumbnail_url": "Instagram CDN URLs expire. For the static path, self-host the thumbnails in assets/feeds/img/ so the grid does not rot.",
+    "permalink": "Opens in a new tab. Required — a tile with no destination is dead weight.",
+    "caption": "Used as alt text and aria-label. Keep it descriptive, not hashtags."
+  }
+}
